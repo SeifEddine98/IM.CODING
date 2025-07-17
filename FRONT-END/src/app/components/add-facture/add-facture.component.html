@@ -1,0 +1,64 @@
+<header>
+    <app-navbar></app-navbar>
+    </header>
+        <br/>
+        <div class="container">
+            <hr class="hr">
+            <h2 class="text-center"><mat-icon style ="vertical-align: -4px;">receipt</mat-icon> Nouvelle Facture</h2>
+            <hr class="hr">
+          </div>
+            <h3 class="title1"> <mat-icon style ="vertical-align: -5.2px;">info</mat-icon>Merci de rensigner ces données.</h3>   
+            <br/><br/>
+        <form #factureForm="ngForm">
+          <div style="display: flex;">
+            <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+                <mat-label class="form-label">Veuillez sélectionner l'étudiant </mat-label>
+                <mat-select [(ngModel)]="etudiantId" name="etudiantId" #formateur_nameInput="ngModel" required>
+                    <mat-option *ngFor="let etudiant of etudiants" [value]="etudiant.id">{{etudiant.nom}} {{etudiant.prenom}}</mat-option>
+                </mat-select>
+                <mat-icon [ngClass]="{'icon-done': formateur_nameInput.valid, 'icon-clear': !formateur_nameInput.valid}" style="position: absolute; right: 15px; top: 52%; transform: translateY(-50%);">{{ formateur_nameInput.valid ? 'done' : 'clear' }}</mat-icon>
+                <mat-error *ngIf="!etudiantId">Ce champ est obligatoire !</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                <mat-label class="form-label">Veuillez sélectionner la formation</mat-label>
+                <mat-select [(ngModel)]="facture.formation" name="formation" #formation_nameInput="ngModel" required>
+                    <mat-option *ngFor="let formation of formations" [value]="formation.titre">{{formation.titre}}</mat-option>
+                </mat-select>
+                <mat-icon [ngClass]="{'icon-done': formation_nameInput.valid, 'icon-clear': !formation_nameInput.valid}" style="position: absolute; right: 15px; top: 52%; transform: translateY(-50%);">{{ formation_nameInput.valid ? 'done' : 'clear' }}</mat-icon>
+                <mat-error *ngIf="!facture.formation">Ce champ est obligatoire !</mat-error>
+            </mat-form-field>
+              </div>
+                <br/>
+                <br/>
+                <div style="display: flex;">
+                <mat-form-field appearance="outline" style="flex: 1;" style="margin-left:13%;">   
+                    <mat-label class="form-label">Montant total en Dinars</mat-label>
+                          <input matInput style="margin-top: 3px;" [(ngModel)]="facture.montant_total"  type="number" name="montant_total" #montant_totalInput="ngModel" onKeyUp="if(this.value>9999){this.value='';}else if(this.value<0000){this.value='';}" required>
+                          <mat-icon [ngClass]="{'icon-done': montant_totalInput.valid, 'icon-clear': !montant_totalInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ montant_totalInput.valid ? 'done' : 'clear' }}</mat-icon>
+                          <mat-error *ngIf="!facture.montant_total">Ce champ est obligatoire !</mat-error>      
+              </mat-form-field>
+              <mat-form-field appearance="outline" style="flex: 1;" style="margin-right:13%;">   
+                <mat-label class="form-label">Montant payé en Dinars</mat-label>
+                      <input matInput style="margin-top: 3px;" [(ngModel)]="facture.montant_paye"  type="number" name="montant_paye" #montant_payeInput="ngModel" onKeyUp="if(this.value>9999){this.value='';}else if(this.value<0000){this.value='';}" required>
+                      <mat-icon [ngClass]="{'icon-done': montant_payeInput.valid, 'icon-clear': !montant_payeInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ montant_payeInput.valid ? 'done' : 'clear' }}</mat-icon>
+                      <mat-error *ngIf="!facture.montant_paye">Ce champ est obligatoire !</mat-error>      
+          </mat-form-field>
+            </div>
+              <br/>
+              <br/>
+                <div style="display: flex;">
+                    <mat-form-field appearance="outline" style="flex: 1;" style="margin-left:13%;">   
+                        <mat-label class="form-label">Montant restant en Dinars</mat-label>
+                              <input matInput style="margin-top: 3px;" [(ngModel)]="facture.montant_restant"  type="number" name="montant_restant" #montant_restantInput="ngModel" onKeyUp="if(this.value>9999){this.value='';}else if(this.value<0000){this.value='';}" required>
+                              <mat-icon [ngClass]="{'icon-done': montant_restantInput.valid, 'icon-clear': !montant_restantInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ montant_restantInput.valid ? 'done' : 'clear' }}</mat-icon>
+                              <mat-error *ngIf="!facture.montant_restant">Ce champ est obligatoire !</mat-error>      
+                  </mat-form-field>
+              </div>
+                    <br/>
+                    <br/>
+                            <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+                <button mat-raised-button class="btn-group" type="submit" (click)="onSubmit()" style="background-color: #b689d6;" [disabled]="!factureForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+                <br/><br/><br/><br/><br/><br/>
+        </form>
+    
+    

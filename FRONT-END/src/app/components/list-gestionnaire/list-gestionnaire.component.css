@@ -1,0 +1,141 @@
+  
+.card {
+    
+    border-right: 1px solid ;
+    border-color: #9e269e;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 280px; 
+    margin-right: 10px; 
+}
+
+p {
+    color: #7a657a;
+    text-align: center;  
+}
+img {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 200px;
+  object-fit: scale-down;
+}
+h5 {
+    text-align: center;
+}
+
+.edit {
+ margin-left: 40%;
+ color: #a185ac;
+ font-size: 32px;  
+}
+.trash {  
+margin-left: 8%;
+color: rgb(218, 143, 143);
+font-size: 30px;  
+}
+.col {
+    align-content: center; 
+    padding: 50px 30px 30px 10px; 
+}
+.card-title {
+    color: #a56ea5 ;
+    font-family: "Gill Sans", sans-serif;
+    font-weight: bold;
+    font-size: 18px;  
+}
+.card-text {
+    text-align: center;
+}
+#uploadFile {
+  top: 0px;
+  left: 0px;
+  width: 100%;    
+  z-index: 9;
+  opacity: 0;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+}
+
+
+.label {
+    font-weight: bold;
+}
+.text-center{
+    color:#ad249b;
+    font-family: "Gill Sans", sans-serif;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+}
+.text-center mat-icon {
+    margin-right: 5px;
+  }
+.text{
+    color:#9973a1;
+    font-family: "Gill Sans", sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+.col{
+    width: 80%;
+    left: -5%;
+    right: 5%;
+    margin-top: 2%;
+}
+.title1{
+   font-size: large;
+   font-weight: bold;
+   text-align: center;
+   color: #55194d; 
+}
+.title1 mat-icon {
+    margin-right: 5px;
+  }
+.col-md-6 {
+    left: 25%;
+    right: 25%;
+    margin-top: 150px;
+}
+input {
+    border-left: 5px solid #ae00ff;
+}
+.alert {
+    margin-top:2%;
+}
+
+.scrollable-container {
+    height: 650px; /* ajuster la hauteur à votre convenance */
+    overflow-y: auto;
+  }
+  
+  .scrollable-content {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  
+  mat-form-field {
+    margin-right:2%;
+    width: 35%;
+  }
+    .form-label {
+    color: #d89090;
+  font-size: 16px;
+  font-weight: 300;
+  }
+  .prefix-icon {
+    background-image: url("/../../../assets/299636.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-left: 30px;
+    position: relative;
+    
+  }
+  .btn-group {
+    float: right;
+    margin-right: 20px;
+    width: 14%; 
+    font-size: 18px;
+    height: 47px;
+  }

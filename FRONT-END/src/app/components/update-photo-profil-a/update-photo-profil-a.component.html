@@ -1,0 +1,38 @@
+<header>
+    <app-navbar></app-navbar>
+  </header>
+  <br>
+  <div class="container">
+    <hr class="hr">
+    <h2 class="text-center"><mat-icon style ="vertical-align: -4px;">image</mat-icon>Modification du photo de profil de l'administrateur</h2>
+    <hr class="hr">
+  </div>
+  <br><br><br><br>
+  <form #gestionnairePhotoToUpdateForm="ngForm">
+    <div style="display: flex;">
+        <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;  width: 72%;">
+          <mat-label class="form-label" >Photo de profil de l'administrateur</mat-label>
+          <div>
+            <mat-toolbar>
+              <!-- Display files names -->
+              <input matInput [(ngModel)]="selectedFileName" #selectedFileNameInput="ngModel" readonly name="pdp" required>
+              <mat-icon [ngClass]="{'icon-done': selectedFileNameInput.valid, 'icon-clear': !selectedFileNameInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ selectedFileNameInput.valid ? 'done' : 'clear' }}</mat-icon>
+              <!-- Browse Button -->
+              <button mat-raised-button [ngStyle]="{'background-color': '#FADBD8', 'right': '15px','color': '#000000', 'width': '120px', 'border': '1px solid #000000' }">Sélect. img</button>
+            </mat-toolbar>
+            <!-- Fetch selected filed on change -->
+            <input
+              type="file"
+              #fileInput
+              id="uploadFile"
+              (change)="onFileSelected($event)"
+              name="photo_profile"
+              accept="image/*"
+            />
+          </div>
+         <mat-error *ngIf="!selectedFileName">Ce champ est obligatoire !</mat-error>
+        </mat-form-field>
+        </div>
+    <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+          <button mat-raised-button class="btn-group" type="submit" (click)="updatePhotoGestionnaire(adminToUpdate.id)" style="background-color: #b689d6;" [disabled]="!gestionnairePhotoToUpdateForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+</form>

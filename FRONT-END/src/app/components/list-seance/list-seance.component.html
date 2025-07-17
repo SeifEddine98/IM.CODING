@@ -1,0 +1,118 @@
+<header>
+    <app-navbar></app-navbar>
+  </header>
+  <br>
+  <div class="container">
+    <hr class="hr">
+    <h2 class="text-center"><mat-icon style ="vertical-align: -5px;">playlist_play</mat-icon>Liste des séances</h2>
+    <hr class="hr">
+  </div>
+  <br><br>
+  <div style="display: flex;">
+  <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;" >
+    <mat-label class="form-label">Recherche par date</mat-label>
+      <input matInput [matDatepicker]="pickerTri" [(ngModel)]="triDate" (dateChange)="onSearchInput()" name="debut" #date_debutInput="ngModel" readonly>
+      <mat-datepicker-toggle matIconSuffix [for]="pickerTri"></mat-datepicker-toggle>
+      <mat-datepicker touchUi #pickerTri></mat-datepicker>
+      <button mat-icon-button matSuffix *ngIf="triDate" (click)="resetFilter()">
+        <mat-icon>clear</mat-icon>
+      </button>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%; margin-right:13%;">
+    <mat-label class="form-label" >Recherche par titre de séance</mat-label>
+    <input matInput type="text" [(ngModel)]="searchTitre" (input)="onSearchInput2()" style="text-align: center;">
+  </mat-form-field>
+</div>
+  <br><br> 
+  <div class="scrollable-container">
+    <div class="scrollable-content">
+      <div *ngFor="let seance of filteredSeances">
+        <div class="card">
+          <div class="card-body">
+            <img src="../../../../assets/43289.png">
+            <br>
+            <h5 class="card-title">{{seance.titre}}</h5>
+            <p class="card-text"><b>Remarques :</b> {{seance.notes}}</p>
+            <p class="card-text"><b>Date de début :</b> {{seance.date_debut | date:'dd/MM/yyyy HH:mm'}}</p>
+            <p class="card-text"><b>Date de fin :</b> {{seance.date_fin | date:'dd/MM/yyyy HH:mm'}}</p>
+            <p class="card-text"><b>Titre de la formation :</b> {{seance.formation.titre}}</p>
+            <p class="card-text">
+              <b>État : </b> 
+              <span style="color: red; font-weight: bold;" *ngIf="seance.date_debut < currentDate && seance.date_fin < currentDate">Terminée</span>
+              <span style="color: green; font-weight: bold;" *ngIf="seance.date_debut <= currentDate && seance.date_fin >= currentDate">En cours</span>
+              <span style="color: orange; font-weight: bold;" *ngIf="seance.date_debut > currentDate">À venir</span>
+            </p>
+          </div>
+          <div class="card-footer">
+            <button mat-raised-button  (click)="getSeancebyId(seance.id)" style="margin-left:10px; margin-right:3px; background-color: rgb(212, 204, 204);">
+              <mat-icon>edit</mat-icon>Modifier
+            </button>
+            <button mat-raised-button  (click)="supprimer(seance.id)" style="background-color: rgb(235, 69, 69);">
+              <mat-icon>delete</mat-icon>Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <br/>
+   <br/>
+  <form #seanceToUpdateForm="ngForm" *ngIf="isShown" >
+    <div style="display: flex;">
+        <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;" >
+            <mat-label class="form-label">Titre de la séance </mat-label>
+            <input matInput style="margin-top: 3px;" [(ngModel)]="SeanceToUpdate.titre" type="text" name="titre" #titreInput="ngModel" required>
+            <mat-icon [ngClass]="{'icon-done': titreInput.valid, 'icon-clear': !titreInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ titreInput.valid ? 'done' : 'clear' }}</mat-icon>
+            <mat-error *ngIf="!SeanceToUpdate.titre">Ce champ est obligatoire !</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                <mat-label class="form-label">Veuillez sélectionner formation</mat-label>
+                <mat-select [(ngModel)]="formation_id" name="formation_id" #formation_nameInput="ngModel" required>
+                    <mat-option *ngFor="let formation of formations" [value]="formation.id">{{formation.titre}}</mat-option>
+                </mat-select>
+                <mat-icon [ngClass]="{'icon-done': formation_nameInput.valid, 'icon-clear': !formation_nameInput.valid}" style="position: absolute; right: 15px; top: 52%; transform: translateY(-50%);">{{ formation_nameInput.valid ? 'done' : 'clear' }}</mat-icon>
+                <mat-error *ngIf="!formation_id">Ce champ est obligatoire !</mat-error>
+            </mat-form-field>
+        </div>
+          <br/>
+          <br/>
+          <div style="display: flex;">
+            <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+           <mat-label class="form-label">Date et horaire de début de la séance</mat-label>
+           <input  matInput [matDatepicker]="picker1" [value]="SeanceToUpdate.date_debut" [(ngModel)]="d_d" name="date_debut" #date_debutInput="ngModel" readonly required>
+            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+           <mat-datepicker touchUi #picker1></mat-datepicker>
+          <input matInput matTimepicker="timepicker1" [(ngModel)]="d_d" name="time_debut" #time_debutInput="ngModel" >
+          <mat-icon [ngClass]="{'icon-done': date_debutInput.valid, 'icon-clear': !date_debutInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ date_debutInput.valid ? 'done' : 'clear' }}</mat-icon>
+           <mat-error *ngIf="!SeanceToUpdate.date_debut">Ce champ est obligatoire !</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+              <mat-label class="form-label">Date et horaire de fin de la séance</mat-label>
+              <input  matInput [matDatepicker]="picker2" [value]="SeanceToUpdate.date_fin" [(ngModel)]="d_f" name="date_fin" #date_finInput="ngModel" readonly required>
+               <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker touchUi #picker2></mat-datepicker>
+              <input matInput matTimepicker="timepicker2" [(ngModel)]="d_f" name="time_fin" #time_finInput="ngModel" >
+              <mat-icon [ngClass]="{'icon-done': date_finInput.valid, 'icon-clear': !date_finInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ date_finInput.valid ? 'done' : 'clear' }}</mat-icon>
+              <mat-error *ngIf="!SeanceToUpdate.date_fin">Ce champ est obligatoire !</mat-error>
+               </mat-form-field>
+                </div>
+                 <br/>
+          <br/>
+                <div style="display: flex;">
+                     <mat-form-field appearance="outline"  style="flex: 1" style="margin-left:13%;  width: 72%;" >
+                <mat-label class="form-label">Remarques de la séance </mat-label>
+                <textarea matInput style="margin-top: 3px;" [(ngModel)]="SeanceToUpdate.notes" name="remarques" #remarquesInput="ngModel" required></textarea>
+                <mat-icon [ngClass]="{'icon-done': remarquesInput.valid, 'icon-clear': !remarquesInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ remarquesInput.valid ? 'done' : 'clear' }}</mat-icon>
+                <mat-error *ngIf="!SeanceToUpdate.notes">Ce champ est obligatoire !</mat-error>
+                </mat-form-field>
+            </div>
+                      <br/>
+                      <br/>
+                      <br/>
+                      <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);"  (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+          <button mat-raised-button class="btn-group" type="submit" (click)="onSubmit(SeanceToUpdate,SeanceToUpdate.id,formation_id)" style="background-color: #b689d6;" [disabled]="!seanceToUpdateForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+          <br/><br/><br/><br/><br/><br/>
+  </form>
+
+  
+  

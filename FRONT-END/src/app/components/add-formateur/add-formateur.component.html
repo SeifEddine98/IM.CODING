@@ -1,0 +1,150 @@
+<header>
+<app-navbar></app-navbar>
+</header>
+    <br/>
+    <div class="container">
+        <hr class="hr">
+        <h2 class="text-center"><mat-icon style ="vertical-align: -4px;">person_add</mat-icon> Nouveau Formateur</h2>
+        <hr class="hr">
+      </div>
+        <h3 class="title1"> <mat-icon style ="vertical-align: -5.2px;">info</mat-icon>Merci de rensigner ces données.</h3>   
+        <br/><br/>
+    <form #formateurForm="ngForm" >
+      <div style="display: flex;">
+      <mat-form-field appearance="outline" style="flex: 1;" style="margin-left:13%;">   
+            <mat-label class="form-label">Numèro carte d'identité nationale du formateur</mat-label>
+                  <input matInput style="margin-top: 3px;" [(ngModel)]="formateur.cin" [formControl]="formControl" type="number" name="cin" onKeyUp="if(this.value>99999999){this.value='';}else if(this.value<00000000){this.value='';}" required>
+                  <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl.valid">done</mat-icon>
+                  <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl.invalid">clear</mat-icon>
+                  <mat-error *ngIf="formControl.hasError('required')">Ce champ est obligatoire !</mat-error>
+                  <mat-error *ngIf="formControl.hasError('eightDigits')">Ce champ doit contenir exactement 8 chiffres !</mat-error>
+      </mat-form-field>
+            <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;" >
+            <mat-label class="form-label">Nom du formateur</mat-label>
+            <input matInput style="margin-top: 3px;" [(ngModel)]="formateur.nom" type="text" name="nom" #nomInput="ngModel" required>
+            <mat-icon [ngClass]="{'icon-done': nomInput.valid, 'icon-clear': !nomInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ nomInput.valid ? 'done' : 'clear' }}</mat-icon>
+            <mat-error *ngIf="!formateur.nom">Ce champ est obligatoire !</mat-error>
+            </mat-form-field>
+          </div>
+            <br/>
+            <br/>
+            <div style="display: flex;">
+            <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+            <mat-label class="form-label">Prénom du formateur</mat-label>
+            <input matInput style="margin-top: 3px;" [(ngModel)]="formateur.prenom" type="text" name="prenom" #prenomInput="ngModel" required>
+            <mat-icon [ngClass]="{'icon-done': prenomInput.valid, 'icon-clear': !prenomInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ prenomInput.valid ? 'done' : 'clear' }}</mat-icon>
+            <mat-error *ngIf="!formateur.prenom">Ce champ est obligatoire !</mat-error>
+            </mat-form-field>
+          <mat-form-field appearance="outline" style="flex: 1"  style="margin-right:13%;" >
+            <mat-label class="form-label">Domaine du formateur</mat-label>
+            <mat-select [(ngModel)]="formateur.domaine" name="domaine" #domaineInput="ngModel" required>
+              <mat-option value="developpement-logiciel">Développement logiciel</mat-option>
+              <mat-option value="e-commerce">E-commerce</mat-option>
+              <mat-option value="management">Management</mat-option>
+              <mat-option value="marketing-digital">Marketing digital</mat-option>
+              <mat-option value="developpement-ressource-humaine">Développement ressource humaine</mat-option>
+            </mat-select>
+            <mat-icon [ngClass]="{'icon-done': domaineInput.valid, 'icon-clear': !domaineInput.valid}" style="position: absolute; right: 15px; top: 52%; transform: translateY(-50%);">{{ domaineInput.valid ? 'done' : 'clear' }}</mat-icon>
+            <mat-error *ngIf="!formateur.domaine">Ce champ est obligatoire !</mat-error>
+          </mat-form-field>
+        </div>
+          <br/>
+          <br/>
+          <br/>
+          <div style="display: flex;">
+          <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+            <mat-label class="form-label">Sous domaine du formateur</mat-label>
+            <mat-select [(ngModel)]="formateur.sousdomaine" name="sousDomaine" #sousDomaineInput="ngModel" required>
+            <mat-option *ngFor="let sousDomaine of getSousDomaines(formateur.domaine)" [value]="sousDomaine">{{ sousDomaine }}</mat-option>
+            </mat-select>
+            <mat-icon [ngClass]="{'icon-done': sousDomaineInput.valid, 'icon-clear': !sousDomaineInput.valid}" style="position: absolute; right: 15px; top: 52%; transform: translateY(-50%);">{{ sousDomaineInput.valid ? 'done' : 'clear' }}</mat-icon>
+            <mat-error *ngIf="!formateur.sousdomaine">Ce champ est obligatoire !</mat-error>
+            </mat-form-field>
+          <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+            <mat-label class="form-label">Adresse du formateur</mat-label>
+            <input matInput style="margin-top: 3px;" [(ngModel)]="formateur.adresse" type="text" name="adresse" #adresseInput="ngModel" required>
+            <mat-icon [ngClass]="{'icon-done': adresseInput.valid, 'icon-clear': !adresseInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ adresseInput.valid ? 'done' : 'clear' }}</mat-icon>
+            <mat-error *ngIf="!formateur.adresse">Ce champ est obligatoire !</mat-error>
+            </mat-form-field>
+            </div>
+            <br/>
+            <br/>
+            <div style="display: flex;">
+                  <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+                 <mat-label class="form-label">Date de naissance du formateur</mat-label>
+                 <input  matInput [matDatepicker]="picker" [(ngModel)]="formateur.dateNaiss" name="dateNaiss" #dateNaissInput="ngModel" readonly required>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                 <mat-datepicker touchUi #picker></mat-datepicker>
+                 <mat-icon [ngClass]="{'icon-done': dateNaissInput.valid, 'icon-clear': !dateNaissInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ dateNaissInput.valid ? 'done' : 'clear' }}</mat-icon>
+                 <mat-error *ngIf="!formateur.dateNaiss">Ce champ est obligatoire !</mat-error>
+                  </mat-form-field>
+                <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                <mat-label class="form-label">Email du formateur</mat-label>
+          <input matInput [formControl]="formControl2" [(ngModel)]="formateur.email" type="email" maxlength="50" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" required>
+          <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl2.valid">done</mat-icon>
+            <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl2.invalid">clear</mat-icon>
+            <mat-error *ngIf="formControl2.hasError('required')">Ce champ est obligatoire !</mat-error>
+            <mat-error *ngIf="formControl2.hasError('pattern')">Le format de l'email n'est pas valide !</mat-error>
+            </mat-form-field>
+          </div>
+                <br/>
+                <br/>
+                <br/>
+                <div style="display: flex;">
+                  <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+                  <mat-label class="form-label">Mot de passe du formateur</mat-label>
+                  <input matInput [formControl]="formControl3" [type]="hide ? 'password' : 'text'" style="margin-top: 3px;" [(ngModel)]="formateur.mdp" type="password" name="mdp"  required>
+                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                  <mat-icon style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl3.valid">done</mat-icon>
+                  <mat-icon style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl3.invalid">clear</mat-icon>
+                  <mat-error *ngIf="formControl3.hasError('required')">Ce champ est obligatoire !</mat-error>
+                  <mat-error *ngIf="formControl3.hasError('minimumTenCharacters')">Ce champ doit contenir minimum 10 caractères !</mat-error>         
+                  <mat-error *ngIf="formControl3.hasError('passwordComplexity')">Ce champ doit contenir au moins 1 lettre majiscule, 1 lettre miniscule, 1 chiffre et 1 caractère spécial !</mat-error>            
+                  </mat-form-field>
+                        <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                        <mat-label class="form-label">Numèro de téléphone du formateur</mat-label>
+                        <input matInput style="margin-top: 3px;" [(ngModel)]="formateur.telephone" [formControl]="formControl4" type="number" name="telephone" onKeyUp="if(this.value>99999999){this.value='';}else if(this.value<00000000){this.value='';}" required>
+                        <span class="prefix-icon" matTextPrefix>+216&nbsp;</span>
+                        <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl4.valid">done</mat-icon>
+                        <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl4.invalid">clear</mat-icon>
+                        <mat-error *ngIf="formControl4.hasError('required')">Ce champ est obligatoire !</mat-error>
+                        <mat-error *ngIf="formControl4.hasError('eightDigits')">Ce champ doit contenir un numèro de téléphone valide (8 chiffres) !</mat-error>
+                        </mat-form-field>
+                      </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div style="display: flex;">
+                        <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;  width: 72%;">
+                          <mat-label class="form-label" >Photo de profil du formateur</mat-label>
+                          <div>
+                            <mat-toolbar>
+                              <!-- Display files names -->
+                              <input matInput [(ngModel)]="selectedFileName" #selectedFileNameInput="ngModel" readonly name="pdp" required>
+                              <mat-icon [ngClass]="{'icon-done': selectedFileNameInput.valid, 'icon-clear': !selectedFileNameInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ selectedFileNameInput.valid ? 'done' : 'clear' }}</mat-icon>
+                              <!-- Browse Button -->
+                              <button mat-raised-button [ngStyle]="{'background-color': '#FADBD8', 'right': '15px','color': '#000000', 'width': '120px', 'border': '1px solid #000000' }">Sélect. img</button>
+                            </mat-toolbar>
+                            <!-- Fetch selected filed on change -->
+                            <input
+                              type="file"
+                              #fileInput
+                              id="uploadFile"
+                              (change)="onFileSelected($event)"
+                              name="photo_profile"
+                              accept="image/*"
+                            />
+                          </div>
+                         <mat-error *ngIf="!selectedFileName">Ce champ est obligatoire !</mat-error>
+                        </mat-form-field>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+            <button mat-raised-button class="btn-group" type="submit" (click)="onSubmit()" style="background-color: #b689d6;" [disabled]="!formateurForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+            <br/><br/><br/><br/><br/><br/>
+    </form>
+

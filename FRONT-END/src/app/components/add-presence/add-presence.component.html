@@ -1,0 +1,55 @@
+<header>
+    <app-navbar></app-navbar>
+    </header>
+        <br/>
+        <div class="container">
+            <hr class="hr">
+            <h2 class="text-center"><mat-icon style ="vertical-align: -4px;">assignment_ind</mat-icon>Suivre l'assiduité des étudiants</h2>
+            <hr class="hr">
+          </div>
+            <h3 class="title1"> <mat-icon style ="vertical-align: -5.2px;">info</mat-icon>Merci de rensigner ces données.</h3>   
+            <br/><br/>
+        <form #presenceForm="ngForm">
+          <div style="display: flex;">
+            <mat-form-field appearance="outline" style="flex: 1" style="margin-left:34%;">
+                <mat-label class="form-label">Veuillez sélectionner la séance </mat-label>
+                <mat-select [(ngModel)]="seanceId" name="seanceId" #seanceInput="ngModel" required>
+                    <mat-option *ngFor="let seance of seances" [value]="seance">{{seance.titre}}</mat-option>
+                </mat-select>
+                <mat-icon [ngClass]="{'icon-done': seanceInput.valid, 'icon-clear': !seanceInput.valid}" style="position: absolute; right: 15px; top: 52%; transform: translateY(-50%);">{{ seanceInput.valid ? 'done' : 'clear' }}</mat-icon>
+                <mat-error *ngIf="!seanceId">Ce champ est obligatoire !</mat-error>
+            </mat-form-field>
+              </div>
+                <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nom</th>
+                      <th>Prénom</th>
+                      <th>Cin</th>
+                      <th>Email</th>
+                      <th>Assiduité</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let etudiant of etudiants">
+                      <td>{{ etudiant.nom }}</td>
+                      <td>{{ etudiant.prenom }}</td>
+                      <td>{{ etudiant.cin }}</td>
+                      <td>{{ etudiant.email }}</td>
+                      <td>
+                        <mat-radio-group [(ngModel)]="etudiant.present" name="presence_{{ etudiant.id }}" required>
+                          <mat-radio-button value="true">Présent</mat-radio-button>
+                          <mat-radio-button value="false">Absent</mat-radio-button>
+                        </mat-radio-group>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+                <br/>
+                <br/>
+                            <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+                <button mat-raised-button class="btn-group" type="submit"  (click)="onSubmit()" style="background-color: #b689d6;" [disabled]="!presenceForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+                <br/><br/><br/><br/><br/><br/>
+        </form>

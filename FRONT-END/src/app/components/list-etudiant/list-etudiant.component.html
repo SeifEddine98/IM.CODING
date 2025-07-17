@@ -1,0 +1,179 @@
+<header>
+    <app-navbar></app-navbar>
+  </header>
+  <br>
+  <div class="container">
+    <hr class="hr">
+    <h2 class="text-center"><mat-icon style ="vertical-align: -5px;">group</mat-icon>Liste des étudiants</h2>
+    <hr class="hr">
+  </div>
+  <br><br>
+  <mat-form-field appearance="outline" style="margin-left:34%;">
+    <mat-label class="form-label" >Recherche par CIN</mat-label>
+    <input matInput type="number" [(ngModel)]="searchCin" (input)="onSearchInput()" style="text-align: center;">
+  </mat-form-field>
+  <br><br> 
+  <div class="scrollable-container">
+    <div class="scrollable-content">
+      <div *ngFor="let etudiant of filteredEtudiants">
+        <div class="card">
+          <div class="card-body">
+            <img src="../../../../assets/avatar.png">
+            <br>
+            <h5 class="card-title">{{etudiant.nom}} {{etudiant.prenom}}</h5>
+            <p class="card-text"><b>Cin :</b> {{etudiant.cin}}</p>
+            <p class="card-text"><b>Adresse :</b> {{etudiant.adresse}}</p>
+            <p class="card-text"><b>Date de naissance :</b> {{etudiant.dateNaiss | date:'dd/MM/yyyy'}}</p>
+            <p class="card-text"><b>E-Mail :</b> {{etudiant.email}}</p>
+            <p class="card-text"><b>Téléphone :</b> {{etudiant.telephone}}</p>
+            <p class="card-text" *ngFor="let formation of etudiant.formations"><b>Formation : </b>{{formation.titre}}</p>
+          </div>
+          <div class="card-footer">
+            <button mat-raised-button  (click)="getEtudiantbyId(etudiant.id)" style="margin-left:10px; margin-right:3px; background-color: rgb(212, 204, 204);">
+              <mat-icon>edit</mat-icon>Modifier
+            </button>
+            <button mat-raised-button  (click)="supprimer(etudiant.id)" style="background-color: rgb(241, 101, 101);">
+              <mat-icon>delete</mat-icon>Supprimer
+            </button>
+            <br>
+            <button mat-raised-button (click)="getPresenceByEtudiant(etudiant.id)" style="background-color: #66e49a; margin-top: 10px; margin-right: 4px">
+              <mat-icon>description</mat-icon> Générer le rapport d'assiduité
+            </button>            
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+  
+   
+  <form #etudiantUpdateForm="ngForm" *ngIf="isShown" >
+    <br/><br/>
+    <div style="display: flex;">
+    <mat-form-field appearance="outline" style="flex: 1;" style="margin-left:13%;">   
+          <mat-label class="form-label">Numèro carte d'identité nationale de l'étudiant</mat-label>
+                <input matInput style="margin-top: 3px;" [(ngModel)]="etudiantToUpdate.cin" [formControl]="formControl" type="number" name="cin" onKeyUp="if(this.value>99999999){this.value='';}else if(this.value<00000000){this.value='';}" required>
+                <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl.valid">done</mat-icon>
+                <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl.invalid">clear</mat-icon>
+                <mat-error *ngIf="formControl.hasError('required')">Ce champ est obligatoire !</mat-error>
+                <mat-error *ngIf="formControl.hasError('eightDigits')">Ce champ doit contenir exactement 8 chiffres !</mat-error>
+    </mat-form-field>
+          <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;" >
+          <mat-label class="form-label">Nom de l'étudiant</mat-label>
+          <input matInput style="margin-top: 3px;" [(ngModel)]="etudiantToUpdate.nom" type="text" name="nom" #nomInput="ngModel" required>
+          <mat-icon [ngClass]="{'icon-done': nomInput.valid, 'icon-clear': !nomInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ nomInput.valid ? 'done' : 'clear' }}</mat-icon>
+          <mat-error *ngIf="!etudiantToUpdate.nom">Ce champ est obligatoire !</mat-error>
+          </mat-form-field>
+        </div>
+          <br/>
+          <br/>
+          <div style="display: flex;">
+          <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+          <mat-label class="form-label">Prénom de l'étudiant</mat-label>
+          <input matInput style="margin-top: 3px;" [(ngModel)]="etudiantToUpdate.prenom" type="text" name="prenom" #prenomInput="ngModel" required>
+          <mat-icon [ngClass]="{'icon-done': prenomInput.valid, 'icon-clear': !prenomInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ prenomInput.valid ? 'done' : 'clear' }}</mat-icon>
+          <mat-error *ngIf="!etudiantToUpdate.prenom">Ce champ est obligatoire !</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+              <mat-label class="form-label">Adresse de l'étudiant</mat-label>
+              <input matInput style="margin-top: 3px;" [(ngModel)]="etudiantToUpdate.adresse" type="text" name="adresse" #adresseInput="ngModel" required>
+              <mat-icon [ngClass]="{'icon-done': adresseInput.valid, 'icon-clear': !adresseInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ adresseInput.valid ? 'done' : 'clear' }}</mat-icon>
+              <mat-error *ngIf="!etudiantToUpdate.adresse">Ce champ est obligatoire !</mat-error>
+              </mat-form-field>
+      </div>
+        <br/>
+        <br/>
+          <div style="display: flex;">
+                <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+               <mat-label class="form-label">Date de naissance de l'étudiant</mat-label>
+               <input  matInput [matDatepicker]="picker" [(ngModel)]="etudiantToUpdate.dateNaiss" name="dateNaiss" #dateNaissInput="ngModel" readonly required>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+               <mat-datepicker touchUi #picker></mat-datepicker>
+               <mat-icon [ngClass]="{'icon-done': dateNaissInput.valid, 'icon-clear': !dateNaissInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ dateNaissInput.valid ? 'done' : 'clear' }}</mat-icon>
+               <mat-error *ngIf="!etudiantToUpdate.dateNaiss">Ce champ est obligatoire !</mat-error>
+                </mat-form-field>
+              <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+              <mat-label class="form-label">Email de l'étudiant</mat-label>
+        <input matInput [formControl]="formControl2" [(ngModel)]="etudiantToUpdate.email" type="email" maxlength="50" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" required>
+        <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl2.valid">done</mat-icon>
+          <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl2.invalid">clear</mat-icon>
+          <mat-error *ngIf="formControl2.hasError('required')">Ce champ est obligatoire !</mat-error>
+          <mat-error *ngIf="formControl2.hasError('pattern')">Le format de l'email n'est pas valide !</mat-error>
+          </mat-form-field>
+        </div>
+              <br/>
+              <br/>
+              
+              <div style="display: flex;">
+                      <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+                      <mat-label class="form-label">Numèro de téléphone de l'étudiant</mat-label>
+                      <input matInput style="margin-top: 3px;" [(ngModel)]="etudiantToUpdate.telephone" [formControl]="formControl4" type="number" name="telephone" onKeyUp="if(this.value>99999999){this.value='';}else if(this.value<00000000){this.value='';}" required>
+                      <span class="prefix-icon" matTextPrefix>+216&nbsp;</span>
+                      <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl4.valid">done</mat-icon>
+                      <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl4.invalid">clear</mat-icon>
+                      <mat-error *ngIf="formControl4.hasError('required')">Ce champ est obligatoire !</mat-error>
+                      <mat-error *ngIf="formControl4.hasError('eightDigits')">Ce champ doit contenir un numèro de téléphone valide (8 chiffres) !</mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                        <mat-label class="form-label">Veuillez sélectionner la formation</mat-label>
+                        <mat-select [(ngModel)]="formation_id" name="formation_id" #formateur_nameInput="ngModel" required>
+                            <mat-option *ngFor="let formation of formations" [value]="formation.id">{{formation.titre}}</mat-option>
+                        </mat-select>
+                        <mat-icon [ngClass]="{'icon-done': formateur_nameInput.valid, 'icon-clear': !formateur_nameInput.valid}" style="position: absolute; right: 15px; top: 52%; transform: translateY(-50%);">{{ formateur_nameInput.valid ? 'done' : 'clear' }}</mat-icon>
+                        <mat-error *ngIf="!formation_id">Ce champ est obligatoire !</mat-error>
+                    </mat-form-field>
+                    </div>
+                      <br/>
+                      <br/>
+                      <br/>
+                      <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+          <button mat-raised-button class="btn-group" type="submit" (click)="onSubmit(etudiantToUpdate.id,etudiantToUpdate,formation_id)" style="background-color: #b689d6;" [disabled]="!etudiantUpdateForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+          <br/><br/><br/><br/><br/><br/>
+  </form>
+  <div id="pdf-content">
+    <br/>
+    <div *ngIf="isShown2">
+    <div class="stats-container" style="margin-left:630px;">
+      Assiduité : <span  [style.color]="assidute.couleur"><span [style.color]="assidute.couleur"> {{assuid | number:'1.0-0'}}%</span>
+     ({{assidute.phrase}})
+  </span>
+  </div>
+    <div class="stats-container">
+      <span>Total des séances: <span class="total">{{ nbSeances }}</span></span>
+      <span>Total des présences: <span class="present">{{ nbPresences }}</span></span>
+      <span>Total des absences: <span class="absent">{{ nbAbsences }}</span></span>
+    </div>
+    
+  <div class="table-responsive" >
+  <table class="table table-striped table-bordered" >
+    <thead>
+      <tr>
+        <th>Date de début de la séance</th>
+        <th>Date de fin de la séance</th>
+        <th>Titre de la séance</th>
+        <th>Formation</th>
+        <th>Nom de l'étudiant</th>
+        <th>Prénom de l'étudiant</th>
+        <th>CIN de l'étudiant</th>
+        <th>Présent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let presence of presences">
+        <td>{{ presence.seance.date_debut | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ presence.seance.date_fin | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ presence.seance.titre }}</td>
+        <td>{{ presence.seance.formation.titre }}</td>
+        <td>{{ presence.etudiant.nom }}</td>
+        <td>{{ presence.etudiant.prenom }}</td>
+        <td>{{ presence.etudiant.cin }}</td>
+        <td>{{ presence.present ? 'Oui' : 'Non' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+</div>
+<button mat-raised-button *ngIf="isShown2"   style="background-color: #007bff; margin-bottom: 20px; margin-left: 550px;"
+(click)="downloadPDF()"><mat-icon>picture_as_pdf</mat-icon>Télécharger en PDF</button>
+<button mat-raised-button *ngIf="isShown2"   style="background-color: rgb(212, 204, 204); margin-bottom: 20px; margin-left: 20px;"
+(click)="annuler()"><mat-icon>arrow_back</mat-icon>Retour</button>

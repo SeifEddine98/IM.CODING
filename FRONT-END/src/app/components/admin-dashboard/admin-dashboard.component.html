@@ -1,0 +1,75 @@
+<header>
+    <app-navbar></app-navbar>
+  </header>
+  <br>
+  <div class="container">
+    <hr class="hr">
+    <h2 class="text-center"><mat-icon style ="vertical-align: -5px;margin-right: 5px;">analytics</mat-icon>Statistiques et données administratives</h2>
+    <hr class="hr">
+  </div>
+  <br>
+  <div class="card" id="pdf-content-formation">
+    <h2>Classement des formations les plus demandées en ordre décroissant</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Titre de la formation</th>
+          <th>Date de début de la formation</th>
+          <th>Date de fin de la formation</th>
+          <th>Nom du formateur désigné</th>
+          <th>Prénom du formateur désigné</th>
+          <th>Nombre d'étudiants inscrits</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let formation of formations">
+          <td>{{ formation.titre }}</td>
+          <td>{{ formation.date_debut | date:'dd/MM/yyyy' }}</td>
+          <td>{{ formation.date_fin | date:'dd/MM/yyyy' }}</td>
+          <td>{{ formation.formateur.nom }}</td>
+          <td>{{ formation.formateur.prenom }}</td>
+          <td>{{ formation.nbEtudiants }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button mat-raised-button  (click)="downloadPDFFormation()"  style="background-color: #007bff; margin-bottom: 20px; margin-left: 550px;"
+><mat-icon>picture_as_pdf</mat-icon>Télécharger en PDF</button>
+  <div class="card" id="pdf-content-formateur">
+    <h2>Classement des formateurs par demandes de congés</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nom du formateur</th>
+          <th>Prénom formateur</th>
+          <th>Cin du formateur</th>
+          <th>E-mail du formateur</th>
+          <th>Téléphone du formateur</th>
+          <th>Domaine du formateur</th>
+          <th>Spécialité du formateur</th>
+          <th>Nombre de demandes de congés</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let formateur of formateurs">
+          <td>{{ formateur.nom }}</td>
+          <td>{{ formateur.prenom }}</td>
+          <td>{{ formateur.cin }}</td>
+          <td>{{ formateur.email }}</td>
+          <td>{{ formateur.telephone }}</td>
+          <td>{{ formateur.domaine }}</td>
+          <td>{{ formateur.sousdomaine }}</td>
+          <td>{{ formateur.nbConges }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button mat-raised-button (click)="downloadPDFFormateur()" style="background-color: #007bff; margin-bottom: 20px; margin-left: 550px;">
+    <mat-icon>picture_as_pdf</mat-icon>Télécharger en PDF</button>
+  <div class="card" id="pdf-content-facture" style="width: 1000px; margin-left: 10%;margin-right: 10%;">
+  <h2>Statistiques des factures</h2>
+  <canvas id="histogram" style="width: 80px; height: 40px;"></canvas>
+  </div>
+  <button mat-raised-button  (click)="downloadPDFFacture()"  style="background-color: #007bff; margin-bottom: 20px; margin-left: 550px;">
+    <mat-icon>picture_as_pdf</mat-icon>Télécharger en PDF</button>
+   

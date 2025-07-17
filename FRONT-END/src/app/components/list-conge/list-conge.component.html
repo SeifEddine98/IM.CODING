@@ -1,0 +1,103 @@
+<header>
+    <app-navbar></app-navbar>
+  </header>
+  <br>
+  <div class="container">
+    <hr class="hr">
+    <h2 class="text-center"><mat-icon style ="vertical-align: -5px;">assignment_return</mat-icon>Liste des demades de congés</h2>
+    <hr class="hr">
+  </div>
+  <br><br>
+    <mat-form-field appearance="outline" style="margin-left:34%;">
+      <mat-label class="form-label" >Recherche par nom de formateur</mat-label>
+      <input matInput type="text" [(ngModel)]="searchtNom" (input)="onSearchInput()" style="text-align: center;">
+    </mat-form-field>
+  <br> <br> 
+  <div class="scrollable-container">
+    <div class="scrollable-content">
+      <div *ngFor="let conge of filteredConges">
+        <div class="card">
+          <div class="card-body">
+            <img src="../../../../assets/calender-2389150_1280-630x630.png">
+            <br>
+            <h5 class="card-title">Réf. Congé : {{conge.id}}</h5>
+            <p class="card-text"><b>Nom du formateur :</b> {{conge.formateur.nom}}</p>
+            <p class="card-text"><b>Prénom du formateur :</b> {{conge.formateur.prenom}}</p>
+            <p class="card-text"><b>Cause du congé :</b> {{conge.cause}}</p>
+            <p class="card-text"><b>Date de début :</b> {{conge.date_debut | date:'dd/MM/yyyy'}}</p>
+            <p class="card-text"><b>Date de fin :</b> {{conge.date_fin | date:'dd/MM/yyyy'}}</p>
+            <p class="card-text"><b>Justificatif du congé : </b> <button (click)="downloadJustificatif(conge.id)">Consulter Just.</button></p>
+            <p class="card-text">
+                <ng-container *ngIf="conge.reponse; else nontraite">
+                    <span style="color: green; font-weight: bold;">DEMANDE TRAITÉE</span>
+                </ng-container>
+                <ng-template #nontraite>
+                        <span style="color: red; font-weight: bold;">DEMANDE NON TRAITÉE</span>
+                </ng-template>
+            </p>
+        </div>
+          <div class="card-footer">
+            <button mat-raised-button  (click)="getCongebyId(conge.id)" [disabled]="conge.reponse !== null" style="margin-left:10px; margin-right:3px; background-color: rgb(212, 204, 204);">
+              <mat-icon>check_circle_outline</mat-icon>Décider
+            </button>
+            <button mat-raised-button  (click)="supprimer(conge.id)" style="background-color: rgb(235, 69, 69);">
+              <mat-icon>delete</mat-icon>Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <br/>
+   <br/>
+  <form #congeToUpdateForm="ngForm" *ngIf="isShown" >
+    <div style="display: flex;">
+        <mat-label class="form-label" style="flex: 1" style="margin-left:38%;">Décision</mat-label>   
+                        <mat-radio-group matRadioGroup [(ngModel)]="congeToUpdate.valide" style="flex: 1" name="presence" #presenceInput="ngModel" required>
+                            <br/>
+                            <mat-radio-button value="true">Accepter</mat-radio-button>
+                          <mat-radio-button value="false" >Refuser</mat-radio-button>
+                          <mat-icon [ngClass]="{'icon-done': presenceInput.valid, 'icon-clear': !presenceInput.valid}" style="margin-left:15px; transform: translateY(7px);">{{ presenceInput.valid ? 'done' : 'clear' }}</mat-icon>
+                          <mat-error style="margin-left:35px;" *ngIf="!congeToUpdate.valide">Ce champ est obligatoire !</mat-error>
+                        </mat-radio-group>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div style="display: flex;">
+                      <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+                     <mat-label class="form-label">Date de début du congé</mat-label>
+                     <input  matInput [matDatepicker]="picker1" [(ngModel)]="congeToUpdate.date_debut" name="date_debut" #date_debutInput="ngModel" readonly required>
+                      <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                     <mat-datepicker touchUi #picker1></mat-datepicker>
+                     <mat-icon [ngClass]="{'icon-done': date_debutInput.valid, 'icon-clear': !date_debutInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ date_debutInput.valid ? 'done' : 'clear' }}</mat-icon>
+                     <mat-error *ngIf="!congeToUpdate.date_debut">Ce champ est obligatoire !</mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                        <mat-label class="form-label">Date de fin du congé</mat-label>
+                        <input  matInput [matDatepicker]="picker2" [(ngModel)]="congeToUpdate.date_fin" name="date_fin" #date_finInput="ngModel" readonly required>
+                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker touchUi #picker2></mat-datepicker>
+                        <mat-icon [ngClass]="{'icon-done': date_finInput.valid, 'icon-clear': !date_finInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ date_finInput.valid ? 'done' : 'clear' }}</mat-icon>
+                        <mat-error *ngIf="!congeToUpdate.date_fin">Ce champ est obligatoire !</mat-error>
+                         </mat-form-field>
+                      </div>
+                      <br/>
+                        <div style="display: flex;">
+
+                        <mat-form-field appearance="outline" style="flex: 1" style="margin-left:34%;">
+                            <mat-label class="form-label">Réponse</mat-label>
+                            <textarea matInput style="margin-top: 3px;" [(ngModel)]="congeToUpdate.reponse" type="text" name="reponse" #prenomInput="ngModel" required></textarea>
+                            <mat-icon [ngClass]="{'icon-done': prenomInput.valid, 'icon-clear': !prenomInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ prenomInput.valid ? 'done' : 'clear' }}</mat-icon>
+                            <mat-error *ngIf="!congeToUpdate.reponse">Ce champ est obligatoire !</mat-error>
+                            </mat-form-field>
+                 </div>
+                      <br/>
+                      <br/>
+                      <br/>
+                      <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+          <button mat-raised-button class="btn-group" type="submit" (click)="onSubmit(congeToUpdate.id,congeToUpdate)" style="background-color: #b689d6;" [disabled]="!congeToUpdateForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+          <br/><br/><br/><br/><br/><br/>
+  </form>
+
+  
+  

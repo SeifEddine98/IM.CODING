@@ -1,0 +1,48 @@
+/* Styles pour les cartes */
+.card {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .card h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: underline;
+
+  }
+  
+  /* Styles pour les tableaux */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table th,
+  table td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+  }
+  table th:not(:last-child),
+table td:not(:last-child) {
+  border-right: 1px solid #ccc;
+}
+  table th {
+    font-weight: bold;
+  }
+  
+  table tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+  .text-center{
+    color:#ad249b;
+    font-family: "Gill Sans", sans-serif;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+}
+

@@ -1,0 +1,18 @@
+<header>
+    <app-navbar-sign-in></app-navbar-sign-in>
+  </header>
+  
+  <div class="container">
+    <div class="left-section">
+      <img src="../../../../assets/AffectionateSeparateGazelle-size_restricted.gif" alt="Animation" class="gif-animation">
+    </div>
+    <div class="right-section" *ngIf="isShown">
+      <button mat-raised-button style="background-color: #eedcdd; font-size: 18px; font-weight: bold;" (click)="Redirect()" class="auth-button gestionnaire"><mat-icon>verified_user</mat-icon>S'authentifier</button>
+    </div>
+    <div class="right-section" *ngIf="isShown2">
+        <button mat-raised-button style="background-color: #dbd6df; font-size: 18px; font-weight: bold;" routerLink="/signInform" class="auth-button formateur"><mat-icon>person</mat-icon>Vous êtes formateur ?</button>
+        <button mat-raised-button style="background-color: #bbb6c0; font-size: 18px; font-weight: bold;" routerLink="/signIngest" class="auth-button gestionnaire"><mat-icon>supervised_user_circle</mat-icon>Vous êtes gestionnaire ?</button>
+        <button mat-raised-button style="background-color: #a7a5aa; font-size: 18px; font-weight: bold;" routerLink="/signInadmin" class="auth-button administrateur"><mat-icon>supervisor_account</mat-icon>Vous êtes administrateur ?</button>
+  </div>
+  </div>
+  

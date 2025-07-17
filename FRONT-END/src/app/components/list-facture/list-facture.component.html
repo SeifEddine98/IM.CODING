@@ -1,0 +1,194 @@
+<header>
+    <app-navbar></app-navbar>
+  </header>
+  <br>
+  <div class="container">
+    <hr class="hr">
+    <h2 class="text-center"><mat-icon style ="vertical-align: -5px;">format_list_numbered</mat-icon>Liste des factures</h2>
+    <hr class="hr">
+  </div>
+  <br><br>
+  <mat-form-field appearance="outline" style="margin-left:34%;">
+    <mat-label class="form-label" >Recherche par nom d'étudiant</mat-label>
+    <input matInput type="text" [(ngModel)]="searchtNom" (input)="onSearchInput()" style="text-align: center;">
+  </mat-form-field>
+  <br><br> 
+  <div class="scrollable-container">
+    <div class="scrollable-content">
+      <div *ngFor="let facture of filteredFactures">
+        <div class="card">
+          <div class="card-body">
+            <img src="../../../../assets/751522.png">
+            <br>
+            <h5 class="card-title">Réf. Facture : {{facture.id}}</h5>
+            <p class="card-text"><b>Date d'émission :</b> {{facture.date_emission | date:'dd/MM/yyyy'}}</p>
+            <p class="card-text"><b>Formation :</b> {{facture.formation}}</p>
+            <p class="card-text"><b>Nom de l'étudiant :</b> {{facture.etudiant.nom}}</p>
+            <p class="card-text"><b>Prénom de l'étudiant :</b> {{facture.etudiant.prenom}}</p>
+            <p class="card-text"><b>Montant total :</b> {{facture.montant_total}} DT</p>
+            <p class="card-text"><b>Montant payé :</b> {{facture.montant_paye}} DT</p>
+            <p class="card-text"><b>Montant restant :</b> {{facture.montant_restant}} DT</p>
+            <p class="card-text">
+                <b>État : </b>
+                <ng-container *ngIf="facture.payee; else nonPayee">
+                    <span style="color: green; font-weight: bold;">PAYÉE</span>
+                </ng-container>
+                <ng-template #nonPayee>
+                    <ng-container *ngIf="facture.montant_restant > 0 && facture.montant_restant < facture.montant_total; else nonPartiellementPayee">
+                        <span style="color: orange; font-weight: bold;">PARTIELLEMENT PAYÉE</span>
+                    </ng-container>
+                    <ng-template #nonPartiellementPayee>
+                        <span style="color: red; font-weight: bold;">NON PAYÉE</span>
+                    </ng-template>
+                </ng-template>
+            </p>
+            
+          <div class="card-footer">
+            <button mat-raised-button  (click)="getFacturebyId(facture.id)" style="margin-left:27px; margin-right:3px; background-color: rgb(212, 204, 204);">
+              <mat-icon>edit</mat-icon>Modifier
+            </button>
+            <button mat-raised-button  (click)="getFacturebyId4P(facture.id)" [disabled]="facture.montant_restant === 0" style="background-color: #008080;">
+              <mat-icon>attach_money</mat-icon>Payer
+            </button>
+            <br>
+            <button mat-raised-button (click)="getFacturebyId4Print(facture.id)" style="background-color: #66e49a; margin-top: 10px; margin-left: 33px">
+              <mat-icon>cloud_download</mat-icon> Télécharger Facture
+            </button>   
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>
+  <br/>
+   <br/>
+  <form #factureToUpdateForm="ngForm" *ngIf="isShown">
+    <div style="display: flex;">
+    <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+        <mat-label class="form-label">Veuillez sélectionner la formation</mat-label>
+        <mat-select [(ngModel)]="factureToUpdate.formation" name="formation" #formation_nameInput="ngModel" required>
+            <mat-option *ngFor="let formation of formations" [value]="formation">{{formation}}</mat-option>
+        </mat-select>
+        <mat-icon [ngClass]="{'icon-done': formation_nameInput.valid, 'icon-clear': !formation_nameInput.valid}" style="position: absolute; right: 15px; top: 52%; transform: translateY(-50%);">{{ formation_nameInput.valid ? 'done' : 'clear' }}</mat-icon>
+        <mat-error *ngIf="!factureToUpdate.formation">Ce champ est obligatoire !</mat-error>
+    </mat-form-field>
+        <mat-form-field appearance="outline" style="flex: 1;" style="margin-right:13%;">   
+            <mat-label class="form-label">Montant total en Dinars</mat-label>
+                  <input matInput style="margin-top: 3px;" [(ngModel)]="factureToUpdate.montant_total"  type="number" name="montant_total" #montant_totalInput="ngModel" onKeyUp="if(this.value>9999){this.value='';}else if(this.value<0000){this.value='';}" required>
+                  <mat-icon [ngClass]="{'icon-done': montant_totalInput.valid, 'icon-clear': !montant_totalInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ montant_totalInput.valid ? 'done' : 'clear' }}</mat-icon>
+                  <mat-error *ngIf="!factureToUpdate.montant_total">Ce champ est obligatoire !</mat-error>      
+      </mat-form-field>
+    </div>
+      <br/>
+        <br/>
+        <div style="display: flex;">
+      <mat-form-field appearance="outline" style="flex: 1;" style="margin-left:13%;">   
+        <mat-label class="form-label">Montant payé en Dinars</mat-label>
+              <input matInput style="margin-top: 3px;" [(ngModel)]="factureToUpdate.montant_paye"  type="number" name="montant_paye" #montant_payeInput="ngModel" onKeyUp="if(this.value>9999){this.value='';}else if(this.value<0000){this.value='';}" required>
+              <mat-icon [ngClass]="{'icon-done': montant_payeInput.valid, 'icon-clear': !montant_payeInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ montant_payeInput.valid ? 'done' : 'clear' }}</mat-icon>
+              <mat-error *ngIf="!factureToUpdate.montant_paye">Ce champ est obligatoire !</mat-error>      
+         </mat-form-field>
+            <mat-form-field appearance="outline" style="flex: 1;" style="margin-right:13%;">   
+                <mat-label class="form-label">Montant restant en Dinars</mat-label>
+                      <input matInput style="margin-top: 3px;" [(ngModel)]="factureToUpdate.montant_restant"  type="number" name="montant_restant" #montant_restantInput="ngModel" onKeyUp="if(this.value>9999){this.value='';}else if(this.value<0000){this.value='';}" required>
+                      <mat-icon [ngClass]="{'icon-done': montant_restantInput.valid, 'icon-clear': !montant_restantInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ montant_restantInput.valid ? 'done' : 'clear' }}</mat-icon>
+                      <mat-error *ngIf="!factureToUpdate.montant_restant">Ce champ est obligatoire !</mat-error>      
+          </mat-form-field>
+      </div>
+            <br/>
+            <br/>
+            <br/>
+            <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+          <button mat-raised-button class="btn-group" type="submit" (click)="onSubmit(factureToUpdate,factureToUpdate.id)" style="background-color: #b689d6;" [disabled]="!factureToUpdateForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+          <br/><br/><br/><br/><br/><br/>
+  </form>
+  <br/>
+  <br/>
+ <form #PaiementForm="ngForm" *ngIf="isShown4P">
+   <div style="display: flex;">
+    <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;  width: 72%;">
+        <mat-label class="form-label">Montant à payer en Dinars</mat-label>
+                 <input matInput style="margin-top: 3px;" [(ngModel)]="paiement.montant"  type="number" name="montant" #montantInput="ngModel" onKeyUp="if(this.value>9999){this.value='';}else if(this.value<0000){this.value='';}" required>
+                 <mat-icon [ngClass]="{'icon-done': montantInput.valid, 'icon-clear': !montantInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ montantInput.valid ? 'done' : 'clear' }}</mat-icon>
+                 <mat-error *ngIf="!factureToUpdate.montant_total">Ce champ est obligatoire !</mat-error>      
+     </mat-form-field>
+   </div>
+           <br/>
+           <br/>
+           <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+         <button mat-raised-button class="btn-group" type="submit"  (click)="Payer(factureToUpdate.id,paiement)"  style="background-color: #b689d6;" [disabled]="!PaiementForm.form.valid"><mat-icon>attach_money</mat-icon>Payer</button>
+         <br/><br/><br/><br/><br/><br/>
+ </form>
+ <div id="pdf-content">
+  <br/>
+  <div *ngIf="isShown2">  
+    <div class="facture-container">
+      <div class="facture-logo-container">
+        <img class="facture-logo" src="../../../../assets/IM-CODING.png" alt="Logo" />
+      </div> 
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <h1>Facture</h1>
+      <div class="facture-row">
+        <div class="facture-label">Référence:</div>
+        <div class="facture-value">{{factureToUpdate.id}}</div>
+      </div>
+      <div class="facture-row">
+        <div class="facture-label">Date d'émission:</div>
+        <div class="facture-value">{{factureToUpdate.date_emission | date:'dd/MM/yyyy'}}</div>
+      </div>
+      <div class="facture-row">
+        <div class="facture-label">Numéro CIN de l'étudiant:</div>
+        <div class="facture-value">{{factureToUpdate.etudiant.cin}}</div>
+      </div>
+      <div class="facture-row">
+        <div class="facture-label">Nom l'étudiant:</div>
+        <div class="facture-value">{{factureToUpdate.etudiant.nom}}</div>
+      </div>
+      <div class="facture-row">
+        <div class="facture-label">Prénom de l'étudiant:</div>
+        <div class="facture-value">{{factureToUpdate.etudiant.prenom}}</div>
+      </div>
+      <div class="facture-row">
+        <div class="facture-label">Formation:</div>
+        <div class="facture-value">{{factureToUpdate.formation}}</div>
+      </div>
+      <div class="facture-row">
+        <div class="facture-label">Montant total:</div>
+        <div class="facture-value">{{factureToUpdate.montant_total}} DT</div>
+      </div>
+      <div class="facture-row">
+        <div class="facture-label">Montant payé:</div>
+        <div class="facture-value">{{factureToUpdate.montant_paye}} DT</div>
+      </div>
+      <div class="facture-row">
+        <div class="facture-label">Montant restant:</div>
+        <div class="facture-value">{{factureToUpdate.montant_restant}} DT</div>
+      </div>
+      <div class="facture-row">
+        <div class="facture-label">État:</div>
+        <div class="facture-value"> <ng-container *ngIf="factureToUpdate.payee; else nonPayee">
+          <span style="color: green; font-weight: bold;">PAYÉE</span>
+      </ng-container>
+      <ng-template #nonPayee>
+          <ng-container *ngIf="factureToUpdate.montant_restant > 0 && factureToUpdate.montant_restant < factureToUpdate.montant_total; else nonPartiellementPayee">
+              <span style="color: orange; font-weight: bold;">PARTIELLEMENT PAYÉE</span>
+          </ng-container>
+          <ng-template #nonPartiellementPayee>
+              <span style="color: red; font-weight: bold;">NON PAYÉE</span>
+          </ng-template>
+      </ng-template></div>
+      </div>
+      <br/><br/><br/>
+      <div class="signature-container" style="text-align: right;">
+        <img src="../../../../assets/Signature.PNG" alt="Signature" />
+      </div>
+    </div>
+</div>
+</div>
+<button mat-raised-button *ngIf="isShown2"   style="background-color: #007bff; margin-bottom: 20px; margin-left: 550px;"
+(click)="downloadPDF()"><mat-icon>picture_as_pdf</mat-icon>Télécharger en PDF</button>
+<button mat-raised-button *ngIf="isShown2"   style="background-color: rgb(212, 204, 204); margin-bottom: 20px; margin-left: 20px;"
+(click)="annuler()"><mat-icon>arrow_back</mat-icon>Retour</button>
+
+  
+  

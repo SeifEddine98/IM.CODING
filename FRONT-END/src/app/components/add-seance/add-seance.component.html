@@ -1,0 +1,69 @@
+<header>
+    <app-navbar></app-navbar>
+    </header>
+        <br/>
+        <div class="container">
+            <hr class="hr">
+            <h2 class="text-center"><mat-icon style ="vertical-align: -4px;">event</mat-icon> Nouvelle Séance</h2>
+            <hr class="hr">
+          </div>
+            <h3 class="title1"> <mat-icon style ="vertical-align: -5.2px;">info</mat-icon>Merci de rensigner ces données.</h3>   
+            <br/><br/>
+        <form #seanceForm="ngForm">
+          <div style="display: flex;">
+                <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;" >
+                <mat-label class="form-label">Titre de la séance </mat-label>
+                <input matInput style="margin-top: 3px;" [(ngModel)]="seance.titre" type="text" name="titre" #titreInput="ngModel" required>
+                <mat-icon [ngClass]="{'icon-done': titreInput.valid, 'icon-clear': !titreInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ titreInput.valid ? 'done' : 'clear' }}</mat-icon>
+                <mat-error *ngIf="!seance.titre">Ce champ est obligatoire !</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                    <mat-label class="form-label">Veuillez sélectionner la formation</mat-label>
+                    <mat-select [(ngModel)]="formation_id" name="formation" #formationInput="ngModel" required>
+                        <mat-option *ngFor="let formation of formations" [value]="formation.id">{{formation.titre}}</mat-option>
+                    </mat-select>
+                    <mat-icon [ngClass]="{'icon-done': formationInput.valid, 'icon-clear': !formationInput.valid}" style="position: absolute; right: 15px; top: 52%; transform: translateY(-50%);">{{ formationInput.valid ? 'done' : 'clear' }}</mat-icon>
+                    <mat-error *ngIf="!formation_id">Ce champ est obligatoire !</mat-error>
+                </mat-form-field>
+              </div>
+                <br/>
+                <br/>
+                <div style="display: flex;">
+                      <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+                     <mat-label class="form-label">Date et horaire de début de la séance</mat-label>
+                     <input  matInput [matDatepicker]="picker1" [(ngModel)]="date_d" name="date_debut" #date_debutInput="ngModel" readonly required>
+                      <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                     <mat-datepicker touchUi #picker1></mat-datepicker>                     
+                    <input matInput matTimepicker="timepicker1" [(ngModel)]="date_d" name="time_debut" #time_debutInput="ngModel" >
+                    <mat-icon [ngClass]="{'icon-done': date_debutInput.valid, 'icon-clear': !date_debutInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ date_debutInput.valid ? 'done' : 'clear' }}</mat-icon>
+                     <mat-error *ngIf="!seance.date_debut">Ce champ est obligatoire !</mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                        <mat-label class="form-label">Date et horaire de fin de la séance</mat-label>
+                        <input  matInput [matDatepicker]="picker2" [(ngModel)]="date_f" name="date_fin" #date_finInput="ngModel" readonly required>
+                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker touchUi #picker2></mat-datepicker>
+                        <input matInput matTimepicker="timepicker2" [(ngModel)]="date_f" name="time_fin" #time_finInput="ngModel" >
+                        <mat-icon [ngClass]="{'icon-done': date_finInput.valid, 'icon-clear': !date_finInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ date_finInput.valid ? 'done' : 'clear' }}</mat-icon>
+                        <mat-error *ngIf="!seance.date_fin">Ce champ est obligatoire !</mat-error>
+                         </mat-form-field>
+              </div>
+              <br/>
+                            <br/>
+              <div style="display: flex;">
+                <mat-form-field appearance="outline"  style="flex: 1" style="margin-left:13%;  width: 72%;" >
+                <mat-label class="form-label">Remarques de la séance </mat-label>
+                <textarea matInput style="margin-top: 3px;" [(ngModel)]="seance.notes" name="remarques" #remarquesInput="ngModel" required></textarea>
+                <mat-icon [ngClass]="{'icon-done': remarquesInput.valid, 'icon-clear': !remarquesInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ remarquesInput.valid ? 'done' : 'clear' }}</mat-icon>
+                <mat-error *ngIf="!seance.notes">Ce champ est obligatoire !</mat-error>
+                </mat-form-field>
+            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+                <button mat-raised-button class="btn-group" type="submit" (click)="onSubmit()" style="background-color: #b689d6;" [disabled]="!seanceForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+                <br/><br/><br/><br/><br/><br/>
+        </form>
+    
+    

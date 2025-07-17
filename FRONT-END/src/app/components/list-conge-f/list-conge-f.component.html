@@ -1,0 +1,67 @@
+<header>
+    <app-navbar></app-navbar>
+  </header>
+  <br>
+  <div class="container">
+    <hr class="hr">
+    <h2 class="text-center"><mat-icon style ="vertical-align: -5px;">assignment_return</mat-icon>Liste des demades de congés</h2>
+    <hr class="hr">
+  </div>
+  <br>
+ 
+  <div class="scrollable-container">
+    <br>
+    
+    <br> <br> 
+    <div class="scrollable-content">
+      <div *ngFor="let conge of conges">
+        <div class="card">
+          <div class="card-body">
+            <img src="../../../../assets/calender-2389150_1280-630x630.png">
+            <br>
+            <h5 class="card-title">Réf. Congé : {{conge.id}}</h5>
+            <p class="card-text"><b>Nom du formateur :</b> {{conge.formateur.nom}}</p>
+            <p class="card-text"><b>Prénom du formateur :</b> {{conge.formateur.prenom}}</p>
+            <p class="card-text"><b>Cause du congé :</b> {{conge.cause}}</p>
+            <p class="card-text"><b>Date de début :</b> {{conge.date_debut | date:'dd/MM/yyyy'}}</p>
+            <p class="card-text"><b>Date de fin :</b> {{conge.date_fin | date:'dd/MM/yyyy'}}</p>
+            <p class="card-text"><b>Justificatif du congé : </b> <button (click)="downloadJustificatif(conge.id)">Consulter Just.</button></p>
+            <p class="card-text">
+                <ng-container *ngIf="conge.reponse; else nontraite">
+                    <span style="color: green; font-weight: bold;">DEMANDE TRAITÉE</span>
+                </ng-container>
+                <ng-template #nontraite>
+                        <span style="color: orange; font-weight: bold;">DEMANDE EN COURS DE TRAITEMENT</span>
+                </ng-template>
+            </p>
+        </div>
+          <div class="card-footer">
+            <button mat-raised-button  (click)="getCongebyId(conge.id)" [disabled]="conge.reponse == null" style="margin-left:30px; background-color: rgb(212, 204, 204);">
+              <mat-icon>check_circle_outline</mat-icon>Consulter la réponse
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <br/>
+   <br/>
+   <div *ngIf="isShown" class="consultation-container">
+    <ng-container *ngIf="congeToUpdate.valide; else nonvalide">
+        <span class="conge-accorde">CONGÉ ACCORDÉ</span>
+    </ng-container>
+    <ng-template #nonvalide>
+        <span class="conge-refuse">CONGÉ RÉFUSÉ</span>
+    </ng-template><br/><br/><br/>
+    <mat-label class="consultation-label">Réponse :</mat-label><br/>
+    <textarea matInput class="consultation-textarea" [(ngModel)]="congeToUpdate.reponse" type="text" name="reponse" readonly></textarea>
+    <br/>
+    <br/>
+    <br/>
+    <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Fermer</button>    <br/><br/>
+    <br/><br/>
+</div>
+
+
+  
+  

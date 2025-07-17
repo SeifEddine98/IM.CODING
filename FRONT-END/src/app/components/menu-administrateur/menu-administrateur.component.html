@@ -1,0 +1,61 @@
+<header>
+    <app-navbar></app-navbar>
+  </header>
+  
+  <mat-sidenav #sidenav class="sidenav-content">
+    <mat-nav-list class="custom-nav-list">
+        <mat-icon style="margin-left: 16px; vertical-align: -5px;">supervisor_account</mat-icon><span style="font-weight: bold; margin-left: 110px; text-decoration: underline;">Menu Administrateur</span>
+      <br/><br/>
+      <hr class="hr">
+      <a mat-list-item routerLink="/addGestionnaire">
+        <mat-icon style ="vertical-align: -5px;">person_add</mat-icon>
+        <span>Ajouter Gestionnaire</span>
+      </a>
+      <a mat-list-item routerLink="/ListGestionnaire">
+        <mat-icon style ="vertical-align: -5px;">group</mat-icon>
+        <span>Consulter/Modifier/Supprimer Gestionnaire</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item routerLink="/addAdmin">
+        <mat-icon style ="vertical-align: -5px;">person_add</mat-icon>
+        <span>Ajouter Administrateur</span>
+      </a>
+      <a mat-list-item routerLink="/ListAdmin">
+        <mat-icon style ="vertical-align: -5px;">group</mat-icon>
+        <span>Consulter/Modifier/Supprimer Administrateur</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item routerLink="/AdminDashboard">
+        <mat-icon style ="vertical-align: -5px;">bar_chart</mat-icon>
+        <span>Consulter Des Analyses Statistiques</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item  routerLink="/UpdateProfileA" >
+        <mat-icon style ="vertical-align: -5px;">edit</mat-icon>
+        <span>Modifier Profil</span>
+      </a>
+      <a mat-list-item  routerLink="/UpdatePhotoProfilA">
+        <mat-icon style ="vertical-align: -5px;">image</mat-icon>
+        <span>Modifier Photo De Profil</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item (click)="sidenav.close()">
+        <mat-icon style ="vertical-align: -5px;">cancel</mat-icon>
+        <span>Fermer Menu</span>
+      </a>
+      <hr class="hr">
+    </mat-nav-list>
+  </mat-sidenav>
+  
+  
+  <mat-sidenav-container>
+    <mat-sidenav-content >
+      <mat-toolbar>
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon><span style="font-size: 20px; vertical-align: 5px; margin-left: 3px">Menu</span> <span style="margin-left: 365px; text-decoration: underline;">Bienvenue dans l'espace Administrateur</span> 
+        </button>
+      </mat-toolbar><br/><br/>
+      <img class="center-image" src="../../../../assets/menu-admin.gif">
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

@@ -1,0 +1,89 @@
+<header>
+    <app-navbar></app-navbar>
+  </header>
+  
+  <mat-sidenav #sidenav class="sidenav-content">
+    <mat-nav-list class="custom-nav-list">
+        <mat-icon style="margin-left: 16px; vertical-align: -5px;">supervised_user_circle</mat-icon><span style="font-weight: bold; margin-left: 104px; text-decoration: underline;">Menu Gestionnaire</span>
+      <br/><br/>
+      <hr class="hr">
+      <a mat-list-item routerLink="/addFormateur">
+        <mat-icon style ="vertical-align: -5px;">person_add</mat-icon>
+        <span>Ajouter Formateur</span>
+      </a>
+      <a mat-list-item routerLink="/ListFormateur">
+        <mat-icon style ="vertical-align: -5px;">group</mat-icon>
+        <span>Consulter/Modifier/Supprimer Formateur</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item routerLink="/addFormation">
+        <mat-icon style ="vertical-align: -5px;">add_circle</mat-icon>
+        <span>Ajouter Formation</span>
+      </a>
+      <a mat-list-item routerLink="/ListFormation">
+        <mat-icon style ="vertical-align: -5px;">list</mat-icon>
+        <span>Consulter/Modifier/Supprimer Formation</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item routerLink="/addEtudiant">
+        <mat-icon style ="vertical-align: -5px;">person_add</mat-icon>
+        <span>Ajouter Étudiant</span>
+      </a>
+      <a mat-list-item routerLink="/ListEtudiant">
+        <mat-icon style ="vertical-align: -5px;">group</mat-icon>
+        <span>Consulter/Modifier/Supprimer Étudiant</span>
+      </a>
+      <hr class="hr">
+       <a mat-list-item routerLink="/addSeance">
+        <mat-icon style ="vertical-align: -5px;">event</mat-icon>
+        <span>Ajouter Séance</span>
+      </a>
+      <a mat-list-item routerLink="/ListSeance">
+        <mat-icon style ="vertical-align: -5px;">playlist_play</mat-icon>
+        <span>Consulter/Modifier/Supprimer Séance</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item routerLink="/ListConge">
+        <mat-icon style ="vertical-align: -5px;">assignment_return</mat-icon>
+        <span>Consulter/Décider/Supprimer Congé</span>
+      </a>
+      <hr class="hr">
+         <a mat-list-item routerLink="/addFacture">
+        <mat-icon style ="vertical-align: -5px;">receipt</mat-icon>
+        <span>Générer Facture</span>
+      </a>
+      <a mat-list-item routerLink="/ListFacture">
+        <mat-icon style ="vertical-align: -5px;">format_list_numbered</mat-icon>
+        <span>Imprimer/Payer/Modifier Facture</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item routerLink="/UpdateProfileAG" >
+        <mat-icon style ="vertical-align: -5px;">edit</mat-icon>
+        <span>Modifier Profil</span>
+      </a>
+      <a mat-list-item routerLink="/UpdatePhotoProfilG">
+        <mat-icon style ="vertical-align: -5px;">image</mat-icon>
+        <span>Modifier Photo De Profil</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item (click)="sidenav.close()">
+        <mat-icon style ="vertical-align: -5px;">cancel</mat-icon>
+        <span>Fermer Menu</span>
+      </a>
+      <hr class="hr">
+    </mat-nav-list>
+  </mat-sidenav>
+  
+  
+  <mat-sidenav-container>
+    <mat-sidenav-content >
+      <mat-toolbar>
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon><span style="font-size: 20px; vertical-align: 5px; margin-left: 3px">Menu</span> <span style="margin-left: 376px; text-decoration: underline;">Bienvenue dans l'espace Gestionnaire</span> 
+        </button>
+      </mat-toolbar><br/><br/>
+      <img style="margin-left: 450px;" class="center-image" src="../../../../assets/menu-gestionnaire2.gif">
+      <img class="center-image2" src="../../../../assets/menu-gestionnaire.gif">
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

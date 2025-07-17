@@ -1,0 +1,56 @@
+<header>
+    <app-navbar></app-navbar>
+  </header>
+  
+  <mat-sidenav #sidenav class="sidenav-content">
+    <mat-nav-list class="custom-nav-list">
+        <mat-icon style="margin-left: 16px; vertical-align: -5px;">person</mat-icon><span style="font-weight: bold; margin-left: 110px; text-decoration: underline;">Menu Formateur</span>
+      <br/><br/>
+      <hr class="hr">
+      <a mat-list-item routerLink="/addPresence">
+        <mat-icon style ="vertical-align: -5px;">assignment_ind</mat-icon>
+        <span>Assigner Assiduité</span>
+      </a>
+      <a mat-list-item routerLink="/ListSeanceF">
+        <mat-icon style ="vertical-align: -5px;">note_add</mat-icon>
+        <span>Consulter/Rédiger Des Rqs Des Séances</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item routerLink="/addConge">
+        <mat-icon style ="vertical-align: -5px;">event</mat-icon>
+        <span>Demander Congé</span>
+      </a>
+      <a mat-list-item routerLink="/ListCongeF">
+        <mat-icon style ="vertical-align: -5px;">assignment_return</mat-icon>
+        <span>Consulter l'État Des Demandes De Congés</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item routerLink="/UpdateProfileF">
+        <mat-icon style ="vertical-align: -5px;">edit</mat-icon>
+        <span>Modifier Profil</span>
+      </a>
+      <a mat-list-item routerLink="/UpdatePhotoProfilF">
+        <mat-icon style ="vertical-align: -5px;">image</mat-icon>
+        <span>Modifier Photo De Profil</span>
+      </a>
+      <hr class="hr">
+      <a mat-list-item (click)="sidenav.close()">
+        <mat-icon style ="vertical-align: -5px;">cancel</mat-icon>
+        <span>Fermer Menu</span>
+      </a>
+      <hr class="hr">
+    </mat-nav-list>
+  </mat-sidenav>
+  
+  
+  <mat-sidenav-container>
+    <mat-sidenav-content >
+      <mat-toolbar>
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon><span style="font-size: 20px; vertical-align: 5px; margin-left: 3px">Menu</span> <span style="margin-left: 389px; text-decoration: underline;">Bienvenue dans l'espace Formateur</span> 
+        </button>
+      </mat-toolbar><br/><br/>
+      <img class="center-image" src="../../../../assets/menu-formateur.gif">
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

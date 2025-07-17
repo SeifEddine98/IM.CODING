@@ -1,0 +1,57 @@
+<header>
+    <app-navbar></app-navbar>
+    </header>
+        <br/>
+        <div class="container">
+            <hr class="hr">
+            <h2 class="text-center"><mat-icon style ="vertical-align: -4px;">add_circle</mat-icon> Nouvelle Formation</h2>
+            <hr class="hr">
+          </div>
+            <h3 class="title1"> <mat-icon style ="vertical-align: -5.2px;">info</mat-icon>Merci de rensigner ces données.</h3>   
+            <br/><br/>
+        <form #formationForm="ngForm">
+          <div style="display: flex;">
+                <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;" >
+                <mat-label class="form-label">Titre de la formation </mat-label>
+                <input matInput style="margin-top: 3px;" [(ngModel)]="formation.titre" type="text" name="titre" #titreInput="ngModel" required>
+                <mat-icon [ngClass]="{'icon-done': titreInput.valid, 'icon-clear': !titreInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ titreInput.valid ? 'done' : 'clear' }}</mat-icon>
+                <mat-error *ngIf="!formation.titre">Ce champ est obligatoire !</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                    <mat-label class="form-label">Veuillez sélectionner le formateur</mat-label>
+                    <mat-select [(ngModel)]="formateur_id" name="formateur_id" #formateur_nameInput="ngModel" required>
+                        <mat-option *ngFor="let formateur of formateurs" [value]="formateur.id">{{formateur.nom}} {{formateur.prenom}}</mat-option>
+                    </mat-select>
+                    <mat-icon [ngClass]="{'icon-done': formateur_nameInput.valid, 'icon-clear': !formateur_nameInput.valid}" style="position: absolute; right: 15px; top: 52%; transform: translateY(-50%);">{{ formateur_nameInput.valid ? 'done' : 'clear' }}</mat-icon>
+                    <mat-error *ngIf="!formateur_id">Ce champ est obligatoire !</mat-error>
+                </mat-form-field>
+              </div>
+                <br/>
+                <br/>
+                <div style="display: flex;">
+                      <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+                     <mat-label class="form-label">Date de début de la formation</mat-label>
+                     <input  matInput [matDatepicker]="picker1" [(ngModel)]="formation.date_debut" name="date_debut" #date_debutInput="ngModel" readonly required>
+                      <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                     <mat-datepicker touchUi #picker1></mat-datepicker>
+                     <mat-icon [ngClass]="{'icon-done': date_debutInput.valid, 'icon-clear': !date_debutInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ date_debutInput.valid ? 'done' : 'clear' }}</mat-icon>
+                     <mat-error *ngIf="!formation.date_debut">Ce champ est obligatoire !</mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                        <mat-label class="form-label">Date de fin de la formation</mat-label>
+                        <input  matInput [matDatepicker]="picker2" [(ngModel)]="formation.date_fin" name="date_fin" #date_finInput="ngModel" readonly required>
+                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker touchUi #picker2></mat-datepicker>
+                        <mat-icon [ngClass]="{'icon-done': date_finInput.valid, 'icon-clear': !date_finInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ date_finInput.valid ? 'done' : 'clear' }}</mat-icon>
+                        <mat-error *ngIf="!formation.date_fin">Ce champ est obligatoire !</mat-error>
+                         </mat-form-field>
+              </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+                <button mat-raised-button class="btn-group" type="submit"  (click)="onSubmit()" style="background-color: #b689d6;" [disabled]="!formationForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+                <br/><br/><br/><br/><br/><br/>
+        </form>
+    
+    

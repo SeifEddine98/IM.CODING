@@ -1,0 +1,87 @@
+.text-center{
+    color:#ad249b;
+    font-family: "Gill Sans", sans-serif;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+}
+.text-center mat-icon {
+  margin-right: 5px;
+}
+.title1{
+   font-size: large;
+   font-weight: bold;
+   text-align: center;
+   color: #55194d; 
+   margin-top: 10px;
+}
+.title1 mat-icon {
+  margin-right: 5px;
+}
+  mat-form-field {
+    margin-right:2%;
+    width: 35%;
+  }
+  .form-label {
+    color: #d89090;
+  font-size: 16px;
+  font-weight: 300;
+  }
+  mat-error {
+    color: red;
+  }
+  .icon-done {
+    color: green;
+  }
+  .icon-clear {
+    color: red;
+  }
+  input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+  display: none;
+}
+.prefix-icon {
+    background-image: url("/../../../assets/299636.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-left: 30px;
+    position: relative;
+    
+  }
+.mat-toolbar-single-row {
+    height: auto !important;
+    background: transparent;
+}
+.mat-toolbar-single-row button {
+    width: 200px;
+
+}
+#uploadFile {
+    top: 0px;
+    left: 0px;
+    width: 100%;    
+    z-index: 9;
+    opacity: 0;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+}
+.container {
+  max-width: 70%; /* ajustez cette valeur selon vos besoins */
+  margin: 0 auto; /* centre le contenu horizontalement */
+}
+.btn-group {
+  float: right;
+  margin-right: 20px;
+  width: 14%; 
+  font-size: 18px;
+  height: 47px;
+}
+
+
+
+
+
+

@@ -1,0 +1,99 @@
+<header>
+    <app-navbar></app-navbar>
+    </header>
+        <br/>
+        <div class="container">
+            <hr class="hr">
+            <h2 class="text-center"><mat-icon style ="vertical-align: -4px;">edit</mat-icon>Modification du profil gestionnaire</h2>
+            <hr class="hr">
+          </div>
+            <h3 class="title1"> <mat-icon mat-icon style ="vertical-align: -5.2px;">info</mat-icon>Merci de rensigner ces données.</h3>   
+            <br/><br/>
+
+<form #gestionnaireToUpdateForm="ngForm">
+    <div style="display: flex;">
+        <mat-form-field appearance="outline" style="flex: 1;" style="margin-left:13%;">   
+              <mat-label class="form-label">Numèro carte d'identité nationale du gestionnaire</mat-label>
+                    <input matInput style="margin-top: 3px;" [(ngModel)]="gestionnaireToUpdate.cin" [formControl]="formControl" type="number" name="cin" onKeyUp="if(this.value>99999999){this.value='';}else if(this.value<00000000){this.value='';}" required>
+                    <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl.valid">done</mat-icon>
+                    <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl.invalid">clear</mat-icon>
+                    <mat-error *ngIf="formControl.hasError('required')">Ce champ est obligatoire !</mat-error>
+                    <mat-error *ngIf="formControl.hasError('eightDigits')">Ce champ doit contenir exactement 8 chiffres !</mat-error>
+        </mat-form-field>
+              <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;" >
+              <mat-label class="form-label">Nom du gestionnaire</mat-label>
+              <input matInput style="margin-top: 3px;" [(ngModel)]="gestionnaireToUpdate.nom" type="text" name="nom" #nomInput="ngModel" required>
+              <mat-icon [ngClass]="{'icon-done': nomInput.valid, 'icon-clear': !nomInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ nomInput.valid ? 'done' : 'clear' }}</mat-icon>
+              <mat-error *ngIf="!gestionnaireToUpdate.nom">Ce champ est obligatoire !</mat-error>
+              </mat-form-field>
+            </div>
+              <br/>
+              <br/>
+              <div style="display: flex;">
+              <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+              <mat-label class="form-label">Prénom du gestionnaire</mat-label>
+              <input matInput style="margin-top: 3px;" [(ngModel)]="gestionnaireToUpdate.prenom" type="text" name="prenom" #prenomInput="ngModel" required>
+              <mat-icon [ngClass]="{'icon-done': prenomInput.valid, 'icon-clear': !prenomInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ prenomInput.valid ? 'done' : 'clear' }}</mat-icon>
+              <mat-error *ngIf="!gestionnaireToUpdate.prenom">Ce champ est obligatoire !</mat-error>
+              </mat-form-field>
+            <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+              <mat-label class="form-label">Adresse du gestionnaire</mat-label>
+              <input matInput style="margin-top: 3px;" [(ngModel)]="gestionnaireToUpdate.adresse" type="text" name="adresse" #adresseInput="ngModel" required>
+              <mat-icon [ngClass]="{'icon-done': adresseInput.valid, 'icon-clear': !adresseInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ adresseInput.valid ? 'done' : 'clear' }}</mat-icon>
+              <mat-error *ngIf="!gestionnaireToUpdate.adresse">Ce champ est obligatoire !</mat-error>
+              </mat-form-field>
+              </div>
+              <br/>
+              <br/>
+              <div style="display: flex;">
+                    <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+                   <mat-label class="form-label">Date de naissance du gestionnaire</mat-label>
+                   <input  matInput [matDatepicker]="picker" [(ngModel)]="gestionnaireToUpdate.dateNaiss" name="dateNaiss" #dateNaissInput="ngModel" readonly required>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                   <mat-datepicker touchUi #picker></mat-datepicker>
+                   <mat-icon [ngClass]="{'icon-done': dateNaissInput.valid, 'icon-clear': !dateNaissInput.valid}" style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);">{{ dateNaissInput.valid ? 'done' : 'clear' }}</mat-icon>
+                   <mat-error *ngIf="!gestionnaireToUpdate.dateNaiss">Ce champ est obligatoire !</mat-error>
+                    </mat-form-field>
+                  <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                  <mat-label class="form-label">Email du gestionnaire</mat-label>
+            <input matInput [formControl]="formControl2" [(ngModel)]="gestionnaireToUpdate.email" type="email" maxlength="50" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" required>
+            <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl2.valid">done</mat-icon>
+              <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl2.invalid">clear</mat-icon>
+              <mat-error *ngIf="formControl2.hasError('required')">Ce champ est obligatoire !</mat-error>
+              <mat-error *ngIf="formControl2.hasError('pattern')">Le format de l'email n'est pas valide !</mat-error>
+              </mat-form-field>
+            </div>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <div style="display: flex;">
+                    <mat-form-field appearance="outline" style="flex: 1" style="margin-left:13%;">
+                    <mat-label class="form-label">Mot de passe du gestionnaire</mat-label>
+                    <input matInput [formControl]="formControl3" [type]="hide ? 'password' : 'text'" style="margin-top: 3px;" [(ngModel)]="gestionnaireToUpdate.mdp" type="password" name="mdp"  required>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-icon style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl3.valid">done</mat-icon>
+                    <mat-icon style="position: absolute; right: 0px; top: 50%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl3.invalid">clear</mat-icon>
+                    <mat-error *ngIf="formControl3.hasError('required')">Ce champ est obligatoire !</mat-error>
+                    <mat-error *ngIf="formControl3.hasError('minimumTenCharacters')">Ce champ doit contenir minimum 10 caractères !</mat-error>         
+                    <mat-error *ngIf="formControl3.hasError('passwordComplexity')">Ce champ doit contenir au moins 1 lettre majiscule, 1 lettre miniscule, 1 chiffre et 1 caractère spécial !</mat-error>            
+                    </mat-form-field>
+                          <mat-form-field appearance="outline" style="flex: 1" style="margin-right:13%;">
+                          <mat-label class="form-label">Numèro de téléphone du gestionnaire</mat-label>
+                          <input matInput style="margin-top: 3px;" [(ngModel)]="gestionnaireToUpdate.telephone" [formControl]="formControl4" type="number" name="telephone" onKeyUp="if(this.value>99999999){this.value='';}else if(this.value<00000000){this.value='';}" required>
+                          <span class="prefix-icon" matTextPrefix>+216&nbsp;</span>
+                          <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl4.valid">done</mat-icon>
+                          <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl4.invalid">clear</mat-icon>
+                          <mat-error *ngIf="formControl4.hasError('required')">Ce champ est obligatoire !</mat-error>
+                          <mat-error *ngIf="formControl4.hasError('eightDigits')">Ce champ doit contenir un numèro de téléphone valide (8 chiffres) !</mat-error>
+                          </mat-form-field>
+                        </div>
+                          <br/>
+                          <br/>
+                          <br/>
+  
+                      <button mat-raised-button class="btn-group" style="margin-right:100px; background-color: rgb(212, 204, 204);" (click)="annuler()"><mat-icon>close</mat-icon>Annuler</button>
+          <button mat-raised-button class="btn-group" type="submit" (click)="onSubmit(gestionnaireToUpdate,gestionnaireToUpdate.id)" style="background-color: #b689d6;" [disabled]="!gestionnaireToUpdateForm.form.valid"><mat-icon>save</mat-icon>Enregistrer</button>
+          <br/><br/><br/><br/><br/><br/>
+  </form>

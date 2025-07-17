@@ -1,0 +1,39 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: #c5baba;
+    color: #000000;
+  }
+  
+  .im {
+    display: inline;
+    max-width: 10% !important;
+    margin-left: 0.4%;
+    margin-top: 0.4%;
+    margin-bottom: 0.4%;
+  }
+  
+  .navbar-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    text-align: center; /* Centre le contenu horizontalement */
+    margin-left: 23px;
+  }
+  
+  .navbar-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .navbar-button-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 1%;
+  }
+  
+ 
+  

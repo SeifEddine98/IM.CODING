@@ -1,0 +1,42 @@
+<header>
+    <app-navbar-sign-in></app-navbar-sign-in>
+    </header>
+        <br/>
+        <div class="container">
+        <h2 class="text-center">Bienvenue à l'espace Administrateur</h2>
+        <hr>
+        </div>   
+        <div style="display: flex;">
+            <img src="/../../../assets/gif.gif" class="img">
+            <form #loginForm="ngForm" class="form">
+                <h1 class="text-center2">SE CONNECTER</h1>
+                <div style="display: flex;">
+                <mat-form-field appearance="outline">   
+                    <mat-label class="form-label">E-mail</mat-label>
+              <input matInput [formControl]="formControl2" [(ngModel)]="userName" type="email" maxlength="50" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" required>
+              <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-done" *ngIf="formControl2.valid">done</mat-icon>
+                <mat-icon style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);" class="icon-clear" *ngIf="formControl2.invalid">clear</mat-icon>
+                <mat-error *ngIf="formControl2.hasError('required')">Ce champ est obligatoire !</mat-error>
+                <mat-error *ngIf="formControl2.hasError('pattern')">Le format de l'email n'est pas valide !</mat-error>
+                </mat-form-field>
+            </div>
+            <div style="display: flex;">
+                <mat-form-field appearance="outline">
+                    <mat-label class="form-label">Mot de passe de l'administrateur</mat-label>
+                    <input matInput #MdpInput="ngModel" [type]="hide ? 'password' : 'text'" style="margin-top: 3px;" [(ngModel)]="password" type="password" name="mdp"  required>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-icon [ngClass]="{'icon-done': MdpInput.valid, 'icon-clear': !MdpInput.valid}" style="position: absolute; right: 0px; top: 55%; transform: translateY(-50%);">{{ MdpInput.valid ? 'done' : 'clear' }}</mat-icon>
+                    <mat-error *ngIf="!password">Ce champ est obligatoire !</mat-error>
+                    
+                </mat-form-field>
+            </div>
+                <button mat-raised-button type="submit" (click)="onSubmit()" class="btn" style=" background-color: #dbd6df;" [disabled]="!loginForm.form.valid">
+                    <mat-icon>supervisor_account</mat-icon>Connexion
+                </button>
+            </form>
+        </div>
+    
+        
+        
