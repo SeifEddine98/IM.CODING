@@ -13,7 +13,7 @@ A fullstack web application for managing a training center that includes user au
 
 **Frontend**  
 - Angular (TypeScript)  
-- HTML5 / SCSS
+- HTML / SCSS
 
 **Other**  
 - Git & GitHub  
